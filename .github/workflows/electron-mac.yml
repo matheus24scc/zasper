@@ -21,7 +21,8 @@ jobs:
       - name: Set up Go
         uses: actions/setup-go@v4
         with:
-          go-version: '1.23' # Change to your required Go version
+
+          go-version: '1.20' # Changed to a valid Go version
 
       - name: Install ZeroMQ
         run: |
@@ -31,7 +32,8 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '22.7'
+
+          node-version: '18.x' # Changed to a stable Node.js version
 
       - name: Install dependencies
         run: cd ui && npm install
@@ -53,14 +55,16 @@ jobs:
 
       - name: Create Release Asset
         if: github.event_name == 'release'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          release_url=$(curl -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+          release_url=$(curl -H "Authorization: token $GITHUB_TOKEN" \
                              -X POST \
-                             -d "{\"tag_name\":\"${{ github.event.release.tag_name }}\"}" \
+                             -d "{\"tag_name\":\"${{ github.ref }}\"}" \
                              https://api.github.com/repos/${{ github.repository }}/releases)
           upload_url=$(echo "$release_url" | jq -r .upload_url | sed 's/{?name,label}//')
-          curl -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+          curl -H "Authorization: token $GITHUB_TOKEN" \
                -H "Content-Type: application/zip" \
-               --data-binary "@path/to/your/output/files/your-app.zip" \
-               "$upload_url?name=your-app.zip"
+               --data-binary "@ui/dist/zasper-0.1.0-arm64.dmg" \
+               "$upload_url?name=zasper-0.1.0-arm64.dmg"
                
