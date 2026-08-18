@@ -218,3 +218,12 @@ Prasun Anand
 ## ⚖️ License
 
 Zasper is licensed under AGPL-3.0 license.
+
+## Status (checkup 2026-08-18)
+> Revisado na campanha de repo-checkup. Relatorio completo: `~/repo-checkup/reports/zasper.md` (local do mantenedor, nao no repo).
+- **Build/Install**: PASS — Go: `go build ./...` RC=0, `go vet ./...` RC=0, `go test ./...` RC=0 (2 testes em `utils`); `go build -o /tmp/zasper ./` OK (bin 26MB). Frontend (`ui/`): `npm install` + `npm run build` RC=0.
+- **Smoke test**: `go build -o /tmp/zasper ./` + servidor sobe (log "Zasper Server started! Listening on port :8048").
+- **Para rodar de ponta-a-ponta precisa de**: Python3/Jupyter no host (kernels Jupyter, git); Docker nao testado neste ambiente.
+- **Inconsistencias conhecidas (README vs codigo)**: nenhuma.
+- **Seguranca**: 44 vulns (`npm audit` no frontend); fix via `npm audit fix --force` (BREAKING) -> NAO aplicado (decisao humana). Sem vulns altas remediadas automaticamente.
+- **Estado resumido**: build verde (Go + frontend) e smoke de boot confirmados; runtime cheio precisa de Python3/Jupyter no host; Docker nao testado.
