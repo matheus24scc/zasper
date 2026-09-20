@@ -218,3 +218,13 @@ Prasun Anand
 ## ⚖️ License
 
 Zasper is licensed under AGPL-3.0 license.
+
+## Status (checkup 2026-08-18)
+> Revisado na campanha de repo-checkup. Relatorio completo: `~/repo-checkup/reports/zasper.md` (local do mantenedor, nao no repo).
+- **Build/Install**: Go — `go build ./...` RC=0; `go vet ./...` RC=0; `go test ./...` RC=0 (2 testes em `utils`); `go.mod` declara `go 1.23` e o ambiente fez auto-download da toolchain `go1.23.0`. Frontend (`ui/`) — `npm install` + `npm run build` verdes (deps `@testing-library` adicionadas no checkup anterior).
+- **Smoke test**: `go build -o /tmp/zasper ./` OK (26MB); servidor sobe ("Zasper Server started! Listening on port :8048"). Build + smoke de boot confirmados sem servicos externos.
+- **Para rodar de ponta-a-ponta precisa de**: Python3/Jupyter instalados no host (para funcionalidade cheia: kernels Jupyter, git). Build + smoke de boot nao precisam de servicos externos.
+- **Inconsistencias conhecidas (README vs codigo)**: nenhuma divergencia README vs codigo citada no relatorio.
+- **Seguranca**: 44 vulns (npm audit) — NAO corrigidas porque o fix exige `npm audit fix --force` (breaking); deixado como esta (decisao humana). Secret scan: nenhum segredo real.
+- **Estado resumido**: Go build/vet/test verdes + smoke (server sobe :8048) sem servicos externos; frontend npm build verde (checkup anterior); 44 vulns npm nao remediadas (decisao humana, exigiria `--force`); runtime cheio precisa de Python3/Jupyter no host.
+
